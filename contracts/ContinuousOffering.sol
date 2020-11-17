@@ -110,7 +110,7 @@ contract ContinuousOffering
 
   /// @notice The address of the token used as reserve in the bonding curve
   /// (e.g. the DAI contract). Use ETH if 0.
-  IERC20 public currency;
+  mapping(address => IERC20) public currencies;
 
   /// @notice The address where fees are sent.
   address payable public feeCollector;
@@ -208,12 +208,12 @@ contract ContinuousOffering
    */
 
   /// @notice The total amount of currency value currently locked in the contract and available to sellers.
-  function buybackReserve() public view returns (uint)
+  function buybackReserve(address _currencyAddress) public view returns (uint)
   {
     uint reserve = address(this).balance;
-    if(address(currency) != address(0))
+    if(address(currencies[_currencyAddress]) != address(0))
     {
-      reserve = currency.balanceOf(address(this));
+      reserve = currencies[_currencyAddress].balanceOf(address(this));
     }
 
     if(reserve > MAX_BEFORE_SQUARE)
@@ -281,12 +281,13 @@ contract ContinuousOffering
   /// @notice Confirms the transfer of `_quantityToInvest` currency to the contract.
   function _collectInvestment(
     address payable _from,
+    address _currencyAddress,
     uint _quantityToInvest,
     uint _msgValue,
     bool _refundRemainder
   ) internal
   {
-    if(address(currency) == address(0))
+    if(address(currencies[_currencyAddress]) == address(0))
     {
       // currency is ETH
       if(_refundRemainder)
@@ -308,25 +309,26 @@ contract ContinuousOffering
       // currency is ERC20
       require(_msgValue == 0, "DO_NOT_SEND_ETH");
 
-      currency.safeTransferFrom(_from, address(this), _quantityToInvest);
+      currencies[_currencyAddress].safeTransferFrom(_from, address(this), _quantityToInvest);
     }
   }
 
   /// @dev Send `_amount` currency from the contract to the `_to` account.
   function _transferCurrency(
     address payable _to,
+    address _currencyAddress,
     uint _amount
   ) internal
   {
     if(_amount > 0)
     {
-      if(address(currency) == address(0))
+      if(address(currencies[_currencyAddress]) == address(0))
       {
         Address.sendValue(_to, _amount);
       }
       else
       {
-        currency.safeTransfer(_to, _amount);
+        currencies[_currencyAddress].safeTransfer(_to, _amount);
       }
     }
   }
@@ -340,7 +342,6 @@ contract ContinuousOffering
   /// @dev using the init pattern in order to support zos upgrades
   function _initialize(
     uint _initReserve,
-    address _currencyAddress,
     uint _initGoal,
     uint _buySlopeNum,
     uint _buySlopeDen,
@@ -372,18 +373,11 @@ contract ContinuousOffering
     setupFeeRecipient = _setupFeeRecipient;
 
     // Set default values (which may be updated using `updateConfig`)
-    uint decimals = 18;
-    if(_currencyAddress != address(0))
-    {
-      decimals = IERC20Detailed(_currencyAddress).decimals();
-    }
-    minInvestment = 100 * (10 ** decimals);
+    minInvestment = 100;
     beneficiary = msg.sender;
     control = msg.sender;
     feeCollector = msg.sender;
 
-    // Save currency
-    currency = IERC20(_currencyAddress);
 
     // Mint the initial reserve
     if(_initReserve > 0)
@@ -393,6 +387,16 @@ contract ContinuousOffering
     }
 
     initializeDomainSeparator();
+  }
+
+  /// @notice Called once after deploy to set the initial configuration.
+  /// None of the values provided here may change once initially set.
+  /// @dev using the init pattern in order to support zos upgrades
+  function _addCurrency(
+    address _currencyAddress
+  ) internal
+  {
+    currencies[_currencyAddress] = IERC20(_currencyAddress);
   }
 
   /// @notice Used to initialize the domain separator used in meta-transactions
@@ -488,16 +492,22 @@ contract ContinuousOffering
   // Buy
 
   /// @dev Distributes _value currency between the buybackReserve, beneficiary, and feeCollector.
-  function _distributeInvestment(uint _value) internal;
+  function _distributeInvestment(address _currencyAddress, uint _value) internal;
 
   /// @notice Calculate how many FAIR tokens you would buy with the given amount of currency if `buy` was called now.
   /// @param _currencyValue How much currency to spend in order to buy FAIR.
   function estimateBuyValue(
+    address _currencyAddress,
     uint _currencyValue
   ) public view
     returns (uint)
   {
-    if(_currencyValue < minInvestment)
+    uint decimals = 18;
+    if(_currencyAddress != address(0))
+    {
+      decimals = IERC20Detailed(_currencyAddress).decimals();
+    }
+    if(_currencyValue < minInvestment * (10 ** decimals))
     {
       return 0;
     }
@@ -602,6 +612,7 @@ contract ContinuousOffering
   function _buy(
     address payable _from,
     address _to,
+    address _currencyAddress,
     uint _currencyValue,
     uint _minTokensBought
   ) internal
@@ -610,12 +621,12 @@ contract ContinuousOffering
     require(_minTokensBought > 0, "MUST_BUY_AT_LEAST_1");
 
     // Calculate the tokenValue for this investment
-    uint tokenValue = estimateBuyValue(_currencyValue);
+    uint tokenValue = estimateBuyValue(_currencyAddress, _currencyValue);
     require(tokenValue >= _minTokensBought, "PRICE_SLIPPAGE");
 
     emit Buy(_from, _to, _currencyValue, tokenValue);
 
-    _collectInvestment(_from, _currencyValue, msg.value, false);
+    _collectInvestment(_from, _currencyAddress, _currencyValue, msg.value, false);
 
     // Update state, initInvestors, and distribute the investment when appropriate
     if(state == STATE_INIT)
@@ -641,7 +652,7 @@ contract ContinuousOffering
 
         if(setupFee > 0)
         {
-          _transferCurrency(setupFeeRecipient, setupFee);
+          _transferCurrency(setupFeeRecipient, _currencyAddress, setupFee);
           if(beneficiaryContribution > setupFee)
           {
             beneficiaryContribution -= setupFee;
@@ -652,14 +663,14 @@ contract ContinuousOffering
           }
         }
 
-        _distributeInvestment(buybackReserve().sub(beneficiaryContribution));
+        _distributeInvestment(_currencyAddress, buybackReserve(_currencyAddress).sub(beneficiaryContribution));
       }
     }
     else // implied: if(state == STATE_RUN)
     {
       if(_to != beneficiary)
       {
-        _distributeInvestment(_currencyValue);
+        _distributeInvestment(_currencyAddress, _currencyValue);
       }
     }
 
@@ -674,11 +685,12 @@ contract ContinuousOffering
   /// yours was submitted.
   function buy(
     address _to,
+    address _currencyAddress,
     uint _currencyValue,
     uint _minTokensBought
   ) public payable
   {
-    _buy(msg.sender, _to, _currencyValue, _minTokensBought);
+    _buy(msg.sender, _to, _currencyAddress, _currencyValue, _minTokensBought);
   }
 
   /// @notice Allow users to sign a message authorizing a buy
@@ -704,17 +716,18 @@ contract ContinuousOffering
     );
     address recoveredAddress = ecrecover(digest, _v, _r, _s);
     require(recoveredAddress != address(0) && recoveredAddress == _from, "INVALID_SIGNATURE");
-    _buy(_from, _to, _currencyValue, _minTokensBought);
+    _buy(_from, _to, address(0), _currencyValue, _minTokensBought);
   }
 
   /// Sell
 
   function estimateSellValue(
+    address _currencyAddress,
     uint _quantityToSell
   ) public view
     returns(uint)
   {
-    uint reserve = buybackReserve();
+    uint reserve = buybackReserve(_currencyAddress);
 
     // Calculate currencyValue for this sale
     uint currencyValue;
@@ -789,6 +802,7 @@ contract ContinuousOffering
   function _sell(
     address _from,
     address payable _to,
+    address _currencyAddress,
     uint _quantityToSell,
     uint _minCurrencyReturned
   ) internal
@@ -796,7 +810,7 @@ contract ContinuousOffering
     require(_from != beneficiary || state >= STATE_CLOSE, "BENEFICIARY_ONLY_SELL_IN_CLOSE_OR_CANCEL");
     require(_minCurrencyReturned > 0, "MUST_SELL_AT_LEAST_1");
 
-    uint currencyValue = estimateSellValue(_quantityToSell);
+    uint currencyValue = estimateSellValue(_currencyAddress, _quantityToSell);
     require(currencyValue >= _minCurrencyReturned, "PRICE_SLIPPAGE");
 
     if(state == STATE_INIT || state == STATE_CANCEL)
@@ -811,7 +825,7 @@ contract ContinuousOffering
       initReserve = supply;
     }
 
-    _transferCurrency(_to, currencyValue);
+    _transferCurrency(_to, _currencyAddress, currencyValue);
     emit Sell(_from, _to, currencyValue, _quantityToSell);
   }
 
@@ -823,11 +837,12 @@ contract ContinuousOffering
   /// yours was submitted.
   function sell(
     address payable _to,
+    address _currencyAddress,
     uint _quantityToSell,
     uint _minCurrencyReturned
   ) public
   {
-    _sell(msg.sender, _to, _quantityToSell, _minCurrencyReturned);
+    _sell(msg.sender, _to, _currencyAddress, _quantityToSell, _minCurrencyReturned);
   }
 
   /// @notice Allow users to sign a message authorizing a sell
@@ -853,7 +868,7 @@ contract ContinuousOffering
     );
     address recoveredAddress = ecrecover(digest, _v, _r, _s);
     require(recoveredAddress != address(0) && recoveredAddress == _from, "INVALID_SIGNATURE");
-    _sell(_from, _to, _quantityToSell, _minCurrencyReturned);
+    _sell(_from, _to, address(0), _quantityToSell, _minCurrencyReturned);
   }
 
   /// Close

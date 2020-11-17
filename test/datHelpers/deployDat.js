@@ -94,13 +94,17 @@ module.exports = async function deployDat(
       await contracts.dat.methods
         .initialize(
           callOptions.initReserve,
-          callOptions.currency,
           callOptions.initGoal,
           callOptions.buySlopeNum,
           callOptions.buySlopeDen,
           callOptions.investmentReserveBasisPoints,
           callOptions.name,
           callOptions.symbol
+        )
+        .send({ from: callOptions.control, gas: constants.MAX_GAS });
+      await contracts.dat.methods
+        .addCurrency(
+          callOptions.currency
         )
         .send({ from: callOptions.control, gas: constants.MAX_GAS });
       await contracts.dat.methods
@@ -119,10 +123,9 @@ module.exports = async function deployDat(
       contracts.dat = await datArtifact.at(datProxy.address);
 
       await contracts.dat.methods[
-        "initialize(uint256,address,uint256,uint256,uint256,uint256,uint256,address,string,string)"
+        "initialize(uint256,uint256,uint256,uint256,uint256,uint256,address,string,string)"
       ](
         callOptions.initReserve,
-        callOptions.currency,
         callOptions.initGoal,
         callOptions.buySlopeNum,
         callOptions.buySlopeDen,
@@ -133,15 +136,20 @@ module.exports = async function deployDat(
         callOptions.symbol,
         { from: callOptions.control, gas: constants.MAX_GAS }
       );
+      /*await contract.dat.methods[
+        "addCurrency(address)"
+      ](
+        callOptions.currency,
+        { from: callOptions.control, gas: constants.MAX_GAS }
+      );*/
     }
   } else {
     contracts.dat = datContract;
 
     await contracts.dat.methods[
-      "initialize(uint256,address,uint256,uint256,uint256,uint256,uint256,address,string,string)"
+      "initialize(uint256,uint256,uint256,uint256,uint256,uint256,address,string,string)"
     ](
       callOptions.initReserve,
-      callOptions.currency,
       callOptions.initGoal,
       callOptions.buySlopeNum,
       callOptions.buySlopeDen,
@@ -151,6 +159,12 @@ module.exports = async function deployDat(
       callOptions.name,
       callOptions.symbol,
       { from: callOptions.control }
+    );
+    await contract.dat.methods[
+      "addCurrency(address)"
+    ](
+      callOptions.currency,
+      { from: callOptions.control, gas: constants.MAX_GAS }
     );
   }
 

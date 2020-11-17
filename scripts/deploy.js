@@ -88,7 +88,9 @@ contract("deploy script", (accounts) => {
               .toFixed(),
           },
           callOptions
-        )
+        ),
+        true,
+        false
       );
 
       bytecodeJson.whitelist = whitelistArtifact.bytecode;
@@ -119,7 +121,7 @@ contract("deploy script", (accounts) => {
     // Test the upgrade process
     //await proxyAdmin.upgrade(fairProxy.address, fairContract.address);
 
-    fs.writeFile(
+    /*fs.writeFile(
       `c-org-abi/abi.json`,
       JSON.stringify(abiJson, null, 2),
       () => {}
@@ -128,6 +130,6 @@ contract("deploy script", (accounts) => {
       `c-org-abi/bytecode.json`,
       JSON.stringify(bytecodeJson, null, 2),
       () => {}
-    );
+    );*/
   });
 });

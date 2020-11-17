@@ -48,7 +48,7 @@ module.exports = {
       // used for local dev
       gas: 6721974,
       host: "127.0.0.1",
-      port: 8545,
+      port: 9545,
       network_id: "*", // Match any network id
     },
 
@@ -67,7 +67,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           privateKeyOrMnemonic,
-          `https://mainnet.infura.io/v3/c13019f552f542188c0b0cdfaeb76cc4`,
+          `https://mainnet.infura.io/v3/f34dfdad12a042ef81082aed57bca57f`,
           0,
           2
         ),
@@ -81,7 +81,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           privateKeyOrMnemonic,
-          `https://rinkeby.infura.io/v3/c13019f552f542188c0b0cdfaeb76cc4`,
+          `https://rinkeby.infura.io/v3/f34dfdad12a042ef81082aed57bca57f`,
           0,
           2
         ),
@@ -95,7 +95,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           privateKeyOrMnemonic,
-          `https://ropsten.infura.io/v3/c13019f552f542188c0b0cdfaeb76cc4`,
+          `https://ropsten.infura.io/v3/f34dfdad12a042ef81082aed57bca57f`,
           0,
           2
         ),

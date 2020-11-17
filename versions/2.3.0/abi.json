@@ -6,19 +6,137 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "_trader",
+          "name": "_userId",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_newWallet",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "AddApprovedUserWallet",
+      "type": "event",
+      "signature": "0x53e962e61fe9ce77833285621e927b34612795a901a9d0814afec8c1732aa862"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_userId",
           "type": "address"
         },
         {
           "indexed": false,
-          "internalType": "bool",
-          "name": "_isApproved",
-          "type": "bool"
+          "internalType": "uint256",
+          "name": "_lockupExpirationDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_numberOfTokensLocked",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
         }
       ],
-      "name": "Approve",
+      "name": "AddLockup",
       "type": "event",
-      "signature": "0x1f478f1e5aee36a892d86e821aba410dc0934cb0ebd0241dd753708338845453"
+      "signature": "0x0c2a6928dd0ff2711056b955763131ec1585c1913f3b5f543edbee23b95c2bf6"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_trader",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_jurisdictionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "ApproveNewUser",
+      "type": "event",
+      "signature": "0xd063c5c14c27af07d5cd2f3e746975a6e2b806d4df0046f3734004ea82746bed"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_startDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_lockupGranularity",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "ConfigWhitelist",
+      "type": "event",
+      "signature": "0x351bf262cacaf0ec30f703f14f08fe31647e71580fb5b0d950ba3c274144b5ae"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OperatorAdded",
+      "type": "event",
+      "signature": "0xac6fa858e9350a46cec16539926e0fde25b7629f84b5a72bffaae4df888ae86d"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OperatorRemoved",
+      "type": "event",
+      "signature": "0x80c0b871b97b595b16a7741c1b06fed0c6f6f558639f18ccbce50724325dc40d"
     },
     {
       "anonymous": false,
@@ -41,6 +159,126 @@
       "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
     },
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "RevokeUserWallet",
+      "type": "event",
+      "signature": "0x2007443167b0169b3aa7607d3d8b1c34e46c921c9ced575762b2f22d737a3d09"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_userId",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_tokensUnlocked",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "UnlockTokens",
+      "type": "event",
+      "signature": "0x899c46f518cbddf4064d807f68b89d253cbd3a60590c1cfda1ebc7be1bd4f85a"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_fromJurisdictionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_toJurisdictionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_lockupLength",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "UpdateJurisdictionFlow",
+      "type": "event",
+      "signature": "0x6b826749e25c3a52bd30d3153eca908526472a2941794c2255277b75e54ee232"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_userId",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_jurisdictionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "UpdateJurisdictionForUserId",
+      "type": "event",
+      "signature": "0x5d97ebcd5ff20c95c3c5deb68791a187b6b51625d256e95baa0a881b1c3548d9"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "addOperator",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x9870d7fe"
+    },
+    {
       "constant": true,
       "inputs": [
         {
@@ -49,7 +287,45 @@
           "type": "address"
         }
       ],
-      "name": "approved",
+      "name": "authorizedWalletToUserId",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x355003ae"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "callingContract",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x224206e2"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "isOperator",
       "outputs": [
         {
           "internalType": "bool",
@@ -60,23 +336,7 @@
       "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0xd8b964e6"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "dat",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x63eb963a"
+      "signature": "0x6d70f7ae"
     },
     {
       "constant": true,
@@ -97,6 +357,22 @@
     {
       "constant": true,
       "inputs": [],
+      "name": "lockupGranularity",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xddbe65a2"
+    },
+    {
+      "constant": true,
+      "inputs": [],
       "name": "owner",
       "outputs": [
         {
@@ -112,6 +388,32 @@
     },
     {
       "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "removeOperator",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xac8a584a"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "renounceOperator",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x2ab6f8db"
+    },
+    {
+      "constant": false,
       "inputs": [],
       "name": "renounceOwnership",
       "outputs": [],
@@ -119,6 +421,22 @@
       "stateMutability": "nonpayable",
       "type": "function",
       "signature": "0x715018a6"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "startDate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x0b97bc86"
     },
     {
       "constant": false,
@@ -137,20 +455,122 @@
       "signature": "0xf2fde38b"
     },
     {
-      "constant": false,
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fromJurisdictionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_toJurisdictionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getJurisdictionFlow",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "lockupLength",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xdabf9a23"
+    },
+    {
+      "constant": true,
       "inputs": [
         {
           "internalType": "address",
-          "name": "_dat",
+          "name": "_userId",
           "type": "address"
         }
       ],
-      "name": "initialize",
-      "outputs": [],
+      "name": "getAuthorizedUserIdInfo",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "jurisdictionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalTokensLocked",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endIndex",
+          "type": "uint256"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function",
-      "signature": "0xc4d66de8"
+      "signature": "0xf20b7e7b"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userId",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_lockupIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getUserIdLockup",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "lockupExpirationDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfTokensLocked",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x6b1278e8"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userId",
+          "type": "address"
+        }
+      ],
+      "name": "getLockedTokenCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "lockedTokens",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xe91e7fc5"
     },
     {
       "constant": true,
@@ -175,7 +595,7 @@
       "outputs": [
         {
           "internalType": "uint8",
-          "name": "",
+          "name": "status",
           "type": "uint8"
         }
       ],
@@ -211,21 +631,210 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_trader",
+          "name": "_callingContract",
           "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isApproved",
-          "type": "bool"
         }
       ],
-      "name": "approve",
+      "name": "initialize",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function",
-      "signature": "0x3d140d21"
+      "signature": "0xc4d66de8"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_startDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_lockupGranularity",
+          "type": "uint256"
+        }
+      ],
+      "name": "configWhitelist",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xb14abf42"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "_fromJurisdictionIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_toJurisdictionIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_lockupLengths",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "updateJurisdictionFlows",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x273c14e5"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_traders",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_jurisdictionIds",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "approveNewUsers",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x16f3b322"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_userIds",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_newWallets",
+          "type": "address[]"
+        }
+      ],
+      "name": "addApprovedUserWallets",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x39e18c1d"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_wallets",
+          "type": "address[]"
+        }
+      ],
+      "name": "revokeUserWallets",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xff93b739"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_userIds",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_jurisdictionIds",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "updateJurisdictionsForUserIds",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x65dc7454"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_userIds",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_lockupExpirationDates",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_numberOfTokensLocked",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "addLockups",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x2bfc388e"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userId",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_maxCount",
+          "type": "uint256"
+        }
+      ],
+      "name": "processLockups",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x78084d71"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userId",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_maxCount",
+          "type": "uint256"
+        }
+      ],
+      "name": "forceUnlock",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x5c7700df"
     },
     {
       "constant": false,
@@ -507,6 +1116,11 @@
       "type": "event"
     },
     {
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
       "constant": false,
       "inputs": [],
       "name": "admin",
@@ -611,8 +1225,7 @@
         }
       ],
       "name": "Approval",
-      "type": "event",
-      "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -631,8 +1244,7 @@
         }
       ],
       "name": "Burn",
-      "type": "event",
-      "signature": "0xcc16f5dbb4873280815c1ee09dbd06736cffcc184412cf7a71a0fdb75d397ca5"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -663,8 +1275,7 @@
         }
       ],
       "name": "Buy",
-      "type": "event",
-      "signature": "0x89f5adc174562e07c9c9b1cae7109bbecb21cf9d1b2847e550042b8653c54a0e"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -677,8 +1288,7 @@
         }
       ],
       "name": "Close",
-      "type": "event",
-      "signature": "0xbf67515a38ee520223d32c1266d52101c30d936ed1f3e436c8caeb0a43cb06bf"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -690,27 +1300,14 @@
           "type": "address"
         },
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "_to",
-          "type": "address"
-        },
-        {
           "indexed": false,
           "internalType": "uint256",
           "name": "_currencyValue",
           "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "_fairValue",
-          "type": "uint256"
         }
       ],
       "name": "Pay",
-      "type": "event",
-      "signature": "0x0849372be021f4dce74a8a4cc15fcfaa23fdcfa92ae99fa045f6cdf0c0836436"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -741,8 +1338,7 @@
         }
       ],
       "name": "Sell",
-      "type": "event",
-      "signature": "0xa082022e93cfcd9f1da5f9236718053910f7e840da080c789c7845698dc032ff"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -761,8 +1357,7 @@
         }
       ],
       "name": "StateChange",
-      "type": "event",
-      "signature": "0x107dddb4541735557564238389eccfc9979bfdde5e57e24e9777b6fe79b4d22f"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -787,8 +1382,7 @@
         }
       ],
       "name": "Transfer",
-      "type": "event",
-      "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -819,12 +1413,6 @@
         },
         {
           "indexed": false,
-          "internalType": "bool",
-          "name": "_autoBurn",
-          "type": "bool"
-        },
-        {
-          "indexed": false,
           "internalType": "uint256",
           "name": "_revenueCommitmentBasisPoints",
           "type": "uint256"
@@ -844,13 +1432,17 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "_openUntilAtLeast",
+          "name": "_minDuration",
           "type": "uint256"
         }
       ],
       "name": "UpdateConfig",
-      "type": "event",
-      "signature": "0x64c539ad5ca31b3ba33150837a33d9e038c90023b19e46e187dcf033bbdae5b3"
+      "type": "event"
+    },
+    {
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "fallback"
     },
     {
       "constant": true,
@@ -865,8 +1457,37 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x3644e515"
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "PERMIT_BUY_TYPEHASH",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "PERMIT_SELL_TYPEHASH",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": true,
@@ -881,8 +1502,22 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x30adf81f"
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "__startedOn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": true,
@@ -908,8 +1543,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xdd62ed3e"
+      "type": "function"
     },
     {
       "constant": false,
@@ -935,24 +1569,7 @@
       ],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x095ea7b3"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "autoBurn",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0xa63b91f4"
+      "type": "function"
     },
     {
       "constant": true,
@@ -973,8 +1590,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x70a08231"
+      "type": "function"
     },
     {
       "constant": true,
@@ -989,8 +1605,42 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x38af3eed"
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "burn",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "burnFrom",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "constant": true,
@@ -1005,8 +1655,37 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x55d0a1d0"
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_currencyAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_currencyValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minTokensBought",
+          "type": "uint256"
+        }
+      ],
+      "name": "buy",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
     },
     {
       "constant": true,
@@ -1021,8 +1700,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x58439fa5"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1037,8 +1715,28 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x35e5cc31"
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_currencyAddress",
+          "type": "address"
+        }
+      ],
+      "name": "buybackReserve",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": true,
@@ -1053,8 +1751,28 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xd8de6587"
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "currencies",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": true,
@@ -1069,8 +1787,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xe5a6b10f"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1085,8 +1802,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x313ce567"
+      "type": "function"
     },
     {
       "constant": false,
@@ -1112,8 +1828,59 @@
       ],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xa457c2d7"
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_currencyAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_currencyValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "estimateBuyValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_currencyAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_quantityToSell",
+          "type": "uint256"
+        }
+      ],
+      "name": "estimateSellValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": true,
@@ -1128,8 +1895,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xb8606eef"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1144,8 +1910,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xc415b95c"
+      "type": "function"
     },
     {
       "constant": false,
@@ -1171,8 +1936,7 @@
       ],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x39509351"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1187,8 +1951,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x26315438"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1209,8 +1972,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x736dcb1f"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1225,13 +1987,21 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xa71ddd25"
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "initializeDomainSeparator",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "constant": true,
       "inputs": [],
-      "name": "investmentReserveBasisPoints",
+      "name": "minDuration",
       "outputs": [
         {
           "internalType": "uint256",
@@ -1241,8 +2011,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x9df3f4f6"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1257,8 +2026,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x8ac2c680"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1273,8 +2041,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x06fdde03"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1295,13 +2062,187 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x7ecebe00"
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "v",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "r",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "s",
+          "type": "bytes32"
+        }
+      ],
+      "name": "permit",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_currencyValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minTokensBought",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_deadline",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_v",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_r",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_s",
+          "type": "bytes32"
+        }
+      ],
+      "name": "permitBuy",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "address payable",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_quantityToSell",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minCurrencyReturned",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_deadline",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_v",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_r",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_s",
+          "type": "bytes32"
+        }
+      ],
+      "name": "permitSell",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_currencyAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_quantityToSell",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minCurrencyReturned",
+          "type": "uint256"
+        }
+      ],
+      "name": "sell",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "constant": true,
       "inputs": [],
-      "name": "openUntilAtLeast",
+      "name": "setupFee",
       "outputs": [
         {
           "internalType": "uint256",
@@ -1311,24 +2252,22 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xdcf81d17"
+      "type": "function"
     },
     {
       "constant": true,
       "inputs": [],
-      "name": "revenueCommitmentBasisPoints",
+      "name": "setupFeeRecipient",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "address payable",
           "name": "",
-          "type": "uint256"
+          "type": "address"
         }
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x6177e37c"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1343,8 +2282,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xc19d93fb"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1359,8 +2297,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x95d89b41"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1375,8 +2312,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x18160ddd"
+      "type": "function"
     },
     {
       "constant": false,
@@ -1402,8 +2338,7 @@
       ],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xa9059cbb"
+      "type": "function"
     },
     {
       "constant": false,
@@ -1434,8 +2369,7 @@
       ],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x23b872dd"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1450,8 +2384,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x54fd4d50"
+      "type": "function"
     },
     {
       "constant": true,
@@ -1466,13 +2399,12 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x93e59dc1"
+      "type": "function"
     },
     {
       "constant": true,
       "inputs": [],
-      "name": "buybackReserve",
+      "name": "revenueCommitmentBasisPoints",
       "outputs": [
         {
           "internalType": "uint256",
@@ -1482,8 +2414,62 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xff909560"
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "investmentReserveBasisPoints",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "runStartedOn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "internalType": "uint8",
+          "name": "decimals",
+          "type": "uint8"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "constant": false,
@@ -1514,6 +2500,16 @@
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
+          "name": "_setupFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address payable",
+          "name": "_setupFeeRecipient",
+          "type": "address"
+        },
+        {
           "internalType": "string",
           "name": "_name",
           "type": "string"
@@ -1528,44 +2524,57 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x21dfb633"
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_msgValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "estimateExitFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "close",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
     },
     {
       "constant": false,
       "inputs": [
         {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
+          "internalType": "address",
+          "name": "_currencyAddress",
+          "type": "address"
         },
         {
-          "internalType": "string",
-          "name": "symbol",
-          "type": "string"
-        },
-        {
-          "internalType": "uint8",
-          "name": "decimals",
-          "type": "uint8"
+          "internalType": "uint256",
+          "name": "_currencyValue",
+          "type": "uint256"
         }
       ],
-      "name": "initialize",
+      "name": "pay",
       "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x1624f6c6"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "initializePermit",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xb35d2c18"
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
     },
     {
       "constant": false,
@@ -1596,11 +2605,6 @@
           "type": "uint256"
         },
         {
-          "internalType": "bool",
-          "name": "_autoBurn",
-          "type": "bool"
-        },
-        {
           "internalType": "uint256",
           "name": "_revenueCommitmentBasisPoints",
           "type": "uint256"
@@ -1612,7 +2616,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_openUntilAtLeast",
+          "name": "_minDuration",
           "type": "uint256"
         }
       ],
@@ -1620,261 +2624,22 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x438f45a3"
+      "type": "function"
     },
     {
       "constant": false,
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_amount",
+          "name": "_runStartedOn",
           "type": "uint256"
         }
       ],
-      "name": "burn",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x42966c68"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_currencyValue",
-          "type": "uint256"
-        }
-      ],
-      "name": "estimateBuyValue",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x2e872bb3"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_currencyValue",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_minTokensBought",
-          "type": "uint256"
-        }
-      ],
-      "name": "buy",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function",
-      "signature": "0xa59ac6dd"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_quantityToSell",
-          "type": "uint256"
-        }
-      ],
-      "name": "estimateSellValue",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0xb12f4153"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address payable",
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_quantityToSell",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_minCurrencyReturned",
-          "type": "uint256"
-        }
-      ],
-      "name": "sell",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x6a272462"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_currencyValue",
-          "type": "uint256"
-        }
-      ],
-      "name": "estimatePayValue",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x4f3424df"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_currencyValue",
-          "type": "uint256"
-        }
-      ],
-      "name": "pay",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function",
-      "signature": "0xc4076876"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_currencyAddress",
-          "type": "address"
-        }
-      ],
-      "name": "addCurrency",
+      "name": "initializeRunStartedOn",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_msgValue",
-          "type": "uint256"
-        }
-      ],
-      "name": "estimateExitFee",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x896d1708"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "close",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function",
-      "signature": "0x43d726d6"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "holder",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "spender",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "nonce",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "expiry",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "allowed",
-          "type": "bool"
-        },
-        {
-          "internalType": "uint8",
-          "name": "v",
-          "type": "uint8"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "r",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "s",
-          "type": "bytes32"
-        }
-      ],
-      "name": "permit",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x8fcbaf0c"
     }
   ],
   "erc20": [

@@ -48,7 +48,6 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
 
   function initialize(
     uint _initReserve,
-    address _currencyAddress,
     uint _initGoal,
     uint _buySlopeNum,
     uint _buySlopeDen,
@@ -62,7 +61,6 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
     // _initialize will enforce this is only called once
     super._initialize(
       _initReserve,
-      _currencyAddress,
       _initGoal,
       _buySlopeNum,
       _buySlopeDen,
@@ -91,13 +89,17 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
     __investmentReserveBasisPoints = _investmentReserveBasisPoints;
   }
 
+  function addCurrency(address _currencyAddress) public {
+    super._addCurrency(_currencyAddress);
+  }
+
   /// Close
 
   function estimateExitFee(uint _msgValue) public view returns (uint) {
     uint exitFee;
 
     if (state == STATE_RUN) {
-      uint reserve = buybackReserve();
+      uint reserve = buybackReserve(address(0));
       reserve = reserve.sub(_msgValue);
 
       // Source: t*(t+b)*(n/d)-r
@@ -141,7 +143,7 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
 
     if (state == STATE_RUN) {
       exitFee = estimateExitFee(msg.value);
-      _collectInvestment(msg.sender, exitFee, msg.value, true);
+      _collectInvestment(msg.sender, address(0), exitFee, msg.value, true);
     }
 
     super._close();
@@ -152,8 +154,8 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
 
   /// @dev Pay the organization on-chain.
   /// @param _currencyValue How much currency which was paid.
-  function pay(uint _currencyValue) public payable {
-    _collectInvestment(msg.sender, _currencyValue, msg.value, false);
+  function pay(address _currencyAddress, uint _currencyValue) public payable {
+    _collectInvestment(msg.sender, _currencyAddress, _currencyValue, msg.value, false);
     require(state == STATE_RUN, "INVALID_STATE");
     require(_currencyValue > 0, "MISSING_CURRENCY");
 
@@ -163,15 +165,9 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
     reserve /= BASIS_POINTS_DEN;
 
     // Math: this will never underflow since revenueCommitmentBasisPoints is capped to BASIS_POINTS_DEN
-    _transferCurrency(beneficiary, _currencyValue - reserve);
+    _transferCurrency(beneficiary, _currencyAddress, _currencyValue - reserve);
 
     emit Pay(msg.sender, _currencyValue);
-  }
-
-  /// @notice Pay the organization on-chain without minting any tokens.
-  /// @dev This allows you to add funds directly to the buybackReserve.
-  function() external payable {
-    require(address(currency) == address(0), "ONLY_FOR_CURRENCY_ETH");
   }
 
   function updateConfig(
@@ -233,6 +229,7 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
 
   /// @dev Distributes _value currency between the buybackReserve, beneficiary, and feeCollector.
   function _distributeInvestment(
+    address _currencyAddress,
     uint _value
   ) internal
   {
@@ -247,7 +244,7 @@ contract DecentralizedAutonomousTrust is ContinuousOffering {
     fee /= BASIS_POINTS_DEN;
 
     // Math: since feeBasisPoints is <= BASIS_POINTS_DEN, this will never underflow.
-    _transferCurrency(beneficiary, reserve - fee);
-    _transferCurrency(feeCollector, fee);
+    _transferCurrency(beneficiary, _currencyAddress, reserve - fee);
+    _transferCurrency(feeCollector, _currencyAddress, fee);
   }
 }
